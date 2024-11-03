@@ -16,6 +16,13 @@
   become: yes
   when: nginx_installed is failed
 
+- name: Change ownership
+  file:
+    path: /var/lib/nginx
+    owner: ec2-user
+    group: root
+    mode: '770'
+
 - name: Set nginx.conf from template
   template:
     src: nginx.conf.j2

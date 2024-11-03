@@ -8,15 +8,32 @@ events {
 }
 
 http {
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile            on;
+    tcp_nopush          on;
+    keepalive_timeout   65;
+    types_hash_max_size 4096;
+    client_max_body_size 2g;
+
     include /usr/share/nginx/modules/*.conf;
+    default_type        application/octet-stream;
+
+    # Load modular configuration files from the /etc/nginx/conf.d directory.
+    # See http://nginx.org/en/docs/ngx_core_module.html#include
+    # for more information.
     
     upstream puma {
-        server unix:///home/ec2-user/raisetech-live8-sample-app/tmp/puma.sock;
+        server unix:///home/ec2-user/raisetech-live8-sample-app/tmp/puma.sock fail_timeout=0;
     }
 
     server {
         listen 80;
-        server_name {{ alb_dns }};
+        server_name 18.180.2.113;
 
         root /home/ec2-user/raisetech-live8-sample-app/public; 
 
