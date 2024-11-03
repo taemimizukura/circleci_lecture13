@@ -27,7 +27,6 @@
   args:
     chdir: "{{ app_dir }}"
 
-
 - name: Asset precompile
   shell: bash -lc "rails assets:precompile"
   args: 
@@ -35,7 +34,3 @@
   async: 600
   poll: 0
 
-- name: Run bin/setup
-  shell: bash -lc "bin/setup"
-  args: 
-    chdir: "{{ app_dir }}"
