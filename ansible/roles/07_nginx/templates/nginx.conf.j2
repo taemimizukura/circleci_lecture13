@@ -22,10 +22,6 @@ http {
 
     include /usr/share/nginx/modules/*.conf;
     default_type        application/octet-stream;
-
-    # Load modular configuration files from the /etc/nginx/conf.d directory.
-    # See http://nginx.org/en/docs/ngx_core_module.html#include
-    # for more information.
     
     upstream puma {
         server unix:///home/ec2-user/raisetech-live8-sample-app/tmp/puma.sock fail_timeout=0;
@@ -41,6 +37,12 @@ http {
           try_files $uri @app; 
         }
 
+        location /assets {
+            expires max;
+            add_header Cache-Control public;
+            root /home/ec2-user/raisetech-live8-sample-app/public;
+        }
+
         location @app {
           proxy_set_header    Host                $http_host;
           proxy_set_header    X-Real-IP           $remote_addr;
@@ -49,11 +51,13 @@ http {
           proxy_set_header    X-Forwarded-Proto   $scheme;
           proxy_pass http://puma;
         }
+        
         error_page 404 /404.html;
         location = /404.html {
         }
-        error_page 500 502 503 504 /50x.html;
-        location = /50x.html {
+        
+        error_page 500 502 503 504 /500.html;
+        location = /500.html {
         }
     }
 }

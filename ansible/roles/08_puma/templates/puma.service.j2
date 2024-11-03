@@ -3,7 +3,7 @@ Description=Puma HTTP Server
 After=network.target
 
 [Service]
-Type=notify
+Type=simple
 WatchdogSec=60
 User=ec2-user
 WorkingDirectory=/home/ec2-user/raisetech-live8-sample-app
