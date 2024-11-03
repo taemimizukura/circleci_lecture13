@@ -18,19 +18,22 @@
       - cmake3
       - openssl-devel
       - libyaml-devel
+      - readline
       - readline-devel
       - zlib-devel
+      - zlib
       - libxml2-devel
       - libxslt-devel
       - sqlite-devel
       - libffi-devel
       - glib2-devel
+      - glibc-headers
+      - sqlite-devel
       - pkgconfig
       - glib2-static
       - redis
       - ImageMagick-devel
       - ImageMagick
-      - development-tools
     state: present
     enablerepo: epel
   become: yes
