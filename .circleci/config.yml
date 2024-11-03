@@ -30,7 +30,7 @@ jobs:
           region: AWS_DEFAULT_REGION
       - run:
           name: Deploy to AWS from template
-          command: aws cloudformation deploy --template-file cloudformation/2_RDS_S3_ALB.yml --stack-name 'Lec13-RDS-S3'
+          command: aws cloudformation deploy --template-file cloudformation/4_RDS_S3_ALB.yml --stack-name 'Lec13-RDS-S3'
       - run:
           name: Get ELB DNS_NAME from CloudFormation
           command: |

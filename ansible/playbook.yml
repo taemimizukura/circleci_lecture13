@@ -11,7 +11,7 @@
     access_key_id: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
     secret_access_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
     region: "{{ lookup('env','AWS_DEFAULT_REGION') }}"
-
+    
   roles:
     - { role: 01_setup }
     - { role: 02_ruby }
