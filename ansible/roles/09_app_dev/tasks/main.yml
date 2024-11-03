@@ -9,37 +9,35 @@
   template:
     src: storage.yml.j2
     dest: "{{ app_dir }}/config/storage.yml"
-  become: yes
   ignore_errors: yes  #dry run用
 
 # libvipsのインストール
-- name: Update EPEL repository cache
-  command: yum makecache --disablerepo="*" --enablerepo="epel"
-  become: yes
+- name: Enable EPEL repository
+  amazon_linux_extra: 
+      name: epel
+      state: enabled
 
-- name: Enable Amazon Extras and install vips
-  shell: amazon-linux-extras install vips -y
-  args:
-    executable: /bin/bash
+- name: Install libvips
+  yum:
+    name: vips
+    state: present
 
 # 実行準備
 - name: Initialize rbenv and run bundle install
   shell: bash -lc "eval '$(rbenv init -)'; bundle install"
   args:
     chdir: "{{ app_dir }}"
-  become: yes
 
 - name: Run db:create
   shell: bash -lc "rails db:create"
   args:
     chdir: "{{ app_dir }}"
-  become: yes
 
 - name: Run db:migrate
   shell: bash -lc "rails db:migrate"
   args:
     chdir: "{{ app_dir }}"
-  become: yes
+
 
 - name: Asset precompile
   shell: bash -lc "rails assets:precompile"
@@ -47,10 +45,8 @@
     chdir: "{{ app_dir }}"
   async: 600
   poll: 0
-  become: yes
 
 - name: Run bin/setup
   shell: bash -lc "bin/setup"
   args: 
     chdir: "{{ app_dir }}"
-  become: yes
