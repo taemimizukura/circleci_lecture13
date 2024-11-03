@@ -17,11 +17,15 @@
   command: yum makecache --disablerepo="*" --enablerepo="epel"
   become: yes
 
+- name: Install EPEL release
+  yum:
+    name: epel-release
+    state: present
+
 - name: Install libvips
   yum:
     name: vips
     state: present
-  become: yes
 
 # 実行準備
 - name: Initialize rbenv and run bundle install
