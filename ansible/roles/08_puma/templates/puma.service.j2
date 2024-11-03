@@ -13,6 +13,7 @@ Restart=always
 RestartSec=5
 Environment="PATH=/home/ec2-user/.rbenv/shims:/home/ec2-user/.rbenv/bin:/usr/local/bin:/usr/bin:/bin"
 Environment="RBENV_ROOT=/home/ec2-user/.rbenv"
+ExecStartPre=/bin/rm -f /home/ec2-user/raisetech-live8-sample-app/tmp/puma.sock
 ExecStart=/bin/bash -lc 'source /home/ec2-user/.bashrc; bundle exec puma -C /home/ec2-user/raisetech-live8-sample-app/config/puma.rb > /var/log/puma_output.log 2> /var/log/puma_error.log'
 
 [Install]
