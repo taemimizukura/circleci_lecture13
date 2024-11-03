@@ -14,3 +14,4 @@
 
   roles:
     - { role: 01_setup }
+    - { role: 02_ruby }
