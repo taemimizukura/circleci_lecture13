@@ -17,15 +17,10 @@
   command: yum makecache --disablerepo="*" --enablerepo="epel"
   become: yes
 
-- name: Install EPEL release
-  yum:
-    name: epel-release
-    state: present
-
-- name: Install libvips
-  yum:
-    name: vips
-    state: present
+- name: Enable Amazon Extras and install vips
+  shell: amazon-linux-extras install vips -y
+  args:
+    executable: /bin/bash
 
 # 実行準備
 - name: Initialize rbenv and run bundle install
