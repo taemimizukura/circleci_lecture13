@@ -15,23 +15,15 @@
       - gcc
       - gcc-c++
       - make
-      - cmake
+      - glibc-headers
       - openssl-devel
-      - libyaml-devel
-      - readline
       - readline-devel
+      - libyaml-devel
       - zlib-devel
-      - zlib
+      - libffi-devel
       - libxml2-devel
       - libxslt-devel
       - sqlite-devel
-      - libffi-devel
-      - glib2-devel
-      - glibc-headers
-      - sqlite-devel
-      - pkgconfig
-      - glib2-static
-      - redis
       - ImageMagick-devel
       - ImageMagick
     state: present
