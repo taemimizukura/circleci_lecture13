@@ -1,0 +1,26 @@
+---
+- name: Check if Yarn is installed
+  shell: bash -lc "yarn -v"
+  register: yarn_installed
+  changed_when: no
+  ignore_errors: yes
+
+- name: Download yarn installer
+  get_url:
+    url: https://yarnpkg.com/install.sh
+    dest: /tmp/yarn-installer.sh
+  when: yarn_installed is failed
+  become: yes
+
+- name: Add execute permission to yarn-installer.sh
+  file:
+    path: /tmp/yarn-installer.sh
+    mode: '0755' 
+  when: yarn_installed is failed
+  become: yes
+
+- name: Execute the yarn-installer.sh
+  shell: /tmp/yarn-installer.sh
+  when: yarn_installed is failed
+  become: yes
+

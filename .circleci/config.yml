@@ -5,6 +5,7 @@ orbs:
   ansible-playbook: orbss/ansible-playbook@0.0.5
   aws-cloudformation: orbss/aws-cloudformation@0.1.6
   python: circleci/python@2.0.3
+
 jobs:
   cfn-lint:
     executor: python/default
@@ -12,9 +13,8 @@ jobs:
       - checkout
       - run: pip install cfn-lint
       - run:
-          name: run cfn-lint
-          command: |
-            cfn-lint -i W3002 -t cloudformation/*.yml
+          name: Run cfn-lint for CloudFormation
+          command: cfn-lint -i W3002 -t cloudformation/*.yml
 
   execute-cloudformation:
     docker:
@@ -30,7 +30,7 @@ jobs:
           region: AWS_DEFAULT_REGION
       - run:
           name: Deploy to AWS from template
-          command: aws cloudformation deploy --template-file cloudformation/4_RDS_S3_ALB.yml --stack-name 'Lec13-RDS-S3'
+          command: aws cloudformation deploy --template-file cloudformation/2_RDS_S3_ALB.yml --stack-name 'Lec13-RDS-S3'
       - run:
           name: Get ELB DNS_NAME from CloudFormation
           command: |
@@ -44,6 +44,7 @@ jobs:
           root: .
           paths:
             - dns_name.txt
+
   execute-ansible:
     docker:
       - image: cimg/python:3.8
@@ -61,7 +62,7 @@ jobs:
           command: pip install ansible
       - add_ssh_keys:
           fingerprints:
-            - "SHA256:m4bMlCuLi9KoY1KMsSxWK/kE3uXxGp2koeEGFWg4wdg"
+            - "SHA256:aa2K3ZyCEuc18KGwfISWQXReT4gmgmFdEFd7y8RcQwk"
       - run:
           name: Add host key to known_hosts
           command: |
@@ -72,6 +73,19 @@ jobs:
           command: |
             ansible-playbook -i ansible/inventory ansible/playbook.yml --private-key ~/.ssh/id_rsa --extra-vars "alb_dns=${DNS_NAME}"
 
+  execute-serverspec:
+    executor: ruby/default
+    steps:
+      - checkout
+      - ruby/install:
+          version: 3.2.3
+      - ruby/install-deps:
+          app-dir: serverspec
+      - run:
+          name: Execute serverspec
+          command: |
+            cd serverspec
+            TARGET_HOST=18.180.2.113 bundle exec rspec
 
 workflows:
   version: 2
@@ -84,4 +98,6 @@ workflows:
       - execute-ansible:
           requires:
             - execute-cloudformation
-
+      - execute-serverspec:
+          requires:
+            - execute-ansible
