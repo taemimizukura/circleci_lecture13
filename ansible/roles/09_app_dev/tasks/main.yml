@@ -1,0 +1,57 @@
+---
+- name: Set development.rb from template
+  template:
+    src: development.rb.j2
+    dest: "{{ app_dir }}/config/environments/development.rb"
+  ignore_errors: yes  #dry run用
+
+- name: Set storage.yml from template
+  template:
+    src: storage.yml.j2
+    dest: "{{ app_dir }}/config/storage.yml"
+  become: yes
+  ignore_errors: yes  #dry run用
+
+# libvipsのインストール
+- name: Update EPEL repository cache
+  command: yum makecache --disablerepo="*" --enablerepo="epel"
+  become: yes
+
+- name: Install libvips
+  yum:
+    name: vips
+    state: present
+  become: yes
+
+# 実行準備
+- name: Initialize rbenv and run bundle install
+  shell: bash -lc "eval '$(rbenv init -)'; bundle install"
+  args:
+    chdir: "{{ app_dir }}"
+  become: yes
+
+- name: Run db:create
+  shell: bash -lc "rails db:create"
+  args:
+    chdir: "{{ app_dir }}"
+  become: yes
+
+- name: Run db:migrate
+  shell: bash -lc "rails db:migrate"
+  args:
+    chdir: "{{ app_dir }}"
+  become: yes
+
+- name: Asset precompile
+  shell: bash -lc "rails assets:precompile"
+  args: 
+    chdir: "{{ app_dir }}"
+  async: 600
+  poll: 0
+  become: yes
+
+- name: Run bin/setup
+  shell: bash -lc "bin/setup"
+  args: 
+    chdir: "{{ app_dir }}"
+  become: yes

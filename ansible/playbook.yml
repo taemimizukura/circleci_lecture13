@@ -21,3 +21,4 @@
     - { role: 06_mysql }
     - { role: 07_nginx }
     - { role: 08_puma }
+    - { role: 09_app_dev }
