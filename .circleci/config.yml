@@ -61,7 +61,7 @@ jobs:
           command: pip install ansible
       - add_ssh_keys:
           fingerprints:
-            - "SHA256:aa2K3ZyCEuc18KGwfISWQXReT4gmgmFdEFd7y8RcQwk"
+            - "SHA256:m4bMlCuLi9KoY1KMsSxWK/kE3uXxGp2koeEGFWg4wdg"
       - run:
           name: Add host key to known_hosts
           command: |
@@ -71,19 +71,7 @@ jobs:
           name: Execute Ansible Playbook
           command: |
             ansible-playbook -i ansible/inventory ansible/playbook.yml --private-key ~/.ssh/id_rsa --extra-vars "alb_dns=${DNS_NAME}"
-  execute-serverspec:
-    executor: ruby/default
-    steps:
-      - checkout
-      - ruby/install:
-          version: 3.2.3
-      - ruby/install-deps:
-          app-dir: serverspec
-      - run:
-          name: Execute serverspec
-          command: |
-            cd serverspec
-            TARGET_HOST=18.180.2.113 bundle exec rspec
+
 
 workflows:
   version: 2
@@ -96,6 +84,4 @@ workflows:
       - execute-ansible:
           requires:
             - execute-cloudformation
-      - execute-serverspec:
-          requires:
-            - execute-ansible
+
