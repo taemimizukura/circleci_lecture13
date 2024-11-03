@@ -12,12 +12,11 @@
   become: yes
   become_user: ec2-user
 
-- name: Install Node.js using NVM
+- name: Source NVM and install Node.js
   shell: |
-    source ~/.nvm/nvm.sh
+    source /home/ec2-user/.nvm/nvm.sh
     nvm install 17.9.1
     nvm alias default 17.9.1
   args:
     executable: /bin/bash
   when: nvm_installed.rc == 0
-
