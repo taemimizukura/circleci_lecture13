@@ -1,0 +1,12 @@
+---
+- name: Check if Rails is installed
+  shell: |
+    bash -lc "/home/ec2-user/.rbenv/shims/gem list rails -i"
+  register: rails_installed
+  ignore_errors: yes
+
+- name: Install Rails
+  shell: bash -lc "gem install rails -v {{ rails_version }} --no-document"
+  when: rails_installed is failed
+
+
