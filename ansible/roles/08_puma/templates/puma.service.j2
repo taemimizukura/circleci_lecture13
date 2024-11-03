@@ -5,7 +5,6 @@ After=network.target
 [Service]
 Type=simple
 User=ec2-user
-Group=nginx  
 WorkingDirectory={{ app_dir }}
 Environment=PUMA_DEBUG=1
 ExecStop=/bin/kill -SIGTERM $MAINPID
