@@ -11,6 +11,11 @@
     dest: "{{ app_dir }}/config/storage.yml"
   ignore_errors: yes  #dry run用
 
+- name: Set application.rb from template
+  template:
+    src: application.rb.j2
+    dest: "{{ app_dir }}/config/application.rb"
+
 # 実行準備
 - name: Initialize rbenv and run bundle install
   shell: bash -lc "eval '$(rbenv init -)'; bundle install"

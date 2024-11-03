@@ -13,6 +13,7 @@ ExecStart=/bin/bash -lc 'bundle exec puma -C config/puma.rb > /var/log/puma_outp
 ExecReload=/bin/kill -USR2 $MAINPID
 ExecStop=/bin/kill -SIGTERM $MAINPID
 Restart=always
+TimeoutStartSec=120
 
 [Install]
 WantedBy=multi-user.target
