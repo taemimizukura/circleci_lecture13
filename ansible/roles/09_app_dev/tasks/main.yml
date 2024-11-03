@@ -16,6 +16,15 @@
   yum:
     name: epel-release
     state: present
+    
+- name: List available extras
+  command: amazon-linux-extras
+  register: extras_list
+
+- name: Enable vips topic
+  amazon_linux_extra:
+    name: vips
+    state: enabled
 
 # libvipsのインストール
 - name: Install libvips
