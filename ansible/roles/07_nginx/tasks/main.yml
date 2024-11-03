@@ -1,0 +1,31 @@
+---
+- name: Check if nginx is installed
+  command: bash -lc "nginx -v"
+  register: nginx_installed
+  ignore_errors: yes
+
+- name: Update yum cache
+  yum:
+    update_cache: yes
+  become: yes
+  
+- name: Install Nginx
+  yum:
+    name: nginx
+    state: present
+  become: yes
+  when: nginx_installed is failed
+
+- name: Set nginx.conf from template
+  template:
+    src: nginx.conf.j2
+    dest: "/etc/nginx/nginx.conf"
+  become: yes
+  ignore_errors: yes  #dry run用
+
+- name: Restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+  become: yes
+

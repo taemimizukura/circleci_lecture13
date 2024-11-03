@@ -19,3 +19,4 @@
     - { role: 04_nodejs }
     - { role: 05_yarn }
     - { role: 06_mysql }
+    - { role: 07_nginx }
