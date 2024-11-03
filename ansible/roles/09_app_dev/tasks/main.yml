@@ -14,8 +14,8 @@
 # libvipsのインストール
 - name: Enable EPEL repository
   amazon_linux_extra: 
-      name: epel
-      state: enabled
+    name: epel
+    state: enabled
 
 - name: Install libvips
   yum:
