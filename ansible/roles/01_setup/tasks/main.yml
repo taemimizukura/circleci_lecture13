@@ -52,4 +52,4 @@
     repo: 'https://github.com/yuta-ushijima/raisetech-live8-sample-app.git'
     dest: "{{ app_dir }}"
   when: not app_dir_stat.stat.exists
-  become: yes
+

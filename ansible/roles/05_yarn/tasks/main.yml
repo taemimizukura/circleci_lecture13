@@ -5,22 +5,12 @@
   changed_when: no
   ignore_errors: yes
 
-- name: Download yarn installer
-  get_url:
-    url: https://yarnpkg.com/install.sh
-    dest: /tmp/yarn-installer.sh
-  when: yarn_installed is failed
+- name: Install Yarn using curl and bash
+  shell: |
+    curl -o- -L https://yarnpkg.com/install.sh | bash
+    source ~/.bashrc
+  args:
+    executable: /bin/bash
   become: yes
-
-- name: Add execute permission to yarn-installer.sh
-  file:
-    path: /tmp/yarn-installer.sh
-    mode: '0755' 
+  become_user: ec2-user
   when: yarn_installed is failed
-  become: yes
-
-- name: Execute the yarn-installer.sh
-  shell: /tmp/yarn-installer.sh
-  when: yarn_installed is failed
-  become: yes
-
