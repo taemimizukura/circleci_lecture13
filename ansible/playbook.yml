@@ -20,3 +20,4 @@
     - { role: 05_yarn }
     - { role: 06_mysql }
     - { role: 07_nginx }
+    - { role: 08_puma }

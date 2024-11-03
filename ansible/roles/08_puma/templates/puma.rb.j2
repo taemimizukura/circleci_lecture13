@@ -1,0 +1,18 @@
+# systemdで実行する際はディレクトリ指定が必要なのでコメントインする
+directory "{{ app_dir }}"
+
+bind "unix:///{{ app_dir }}/tmp/puma.sock"
+pidfile "{{ app_dir }}/tmp/pids/puma.pid"
+
+state_path "{{ app_dir }}/tmp/pids/puma.state"
+
+log_requests true
+stdout_redirect "/var/log/puma_output.log", "/var/log/puma_error.log", true
+
+max_threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
+min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { max_threads_count }
+threads min_threads_count, max_threads_count
+
+bind "unix:///{{ app_dir }}/tmp/puma.sock"
+
+plugin :tmp_restart
