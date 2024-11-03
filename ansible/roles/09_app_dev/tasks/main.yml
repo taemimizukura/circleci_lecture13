@@ -16,7 +16,6 @@
     src: application.rb.j2
     dest: "{{ app_dir }}/config/application.rb"
 
-# 実行準備
 - name: Initialize rbenv and run bundle install
   shell: bash -lc "eval '$(rbenv init -)'; bundle install"
   args:
