@@ -15,7 +15,7 @@
       - gcc
       - gcc-c++
       - make
-      - cmake3
+      - cmake
       - openssl-devel
       - libyaml-devel
       - readline
