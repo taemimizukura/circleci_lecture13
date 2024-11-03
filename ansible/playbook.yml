@@ -15,3 +15,5 @@
   roles:
     - { role: 01_setup }
     - { role: 02_ruby }
+    - { role: 03_rails }
+    - { role: 04_nodejs }

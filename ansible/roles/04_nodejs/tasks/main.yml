@@ -1,0 +1,23 @@
+---
+- name: Check if NVM is installed
+  command: bash -lc "command -v nvm"
+  register: nvm_installed
+  ignore_errors: yes
+
+- name: Install NVM if not installed
+  shell: |
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+  args:
+    creates: /home/ec2-user/.nvm/nvm.sh
+  become: yes
+  become_user: ec2-user
+
+- name: Install Node.js using NVM
+  shell: |
+    source ~/.nvm/nvm.sh
+    nvm install 17.9.1
+    nvm alias default 17.9.1
+  args:
+    executable: /bin/bash
+  when: nvm_installed.rc == 0
+
