@@ -9,7 +9,6 @@
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
   args:
     creates: /home/ec2-user/.nvm/nvm.sh
-  become: yes
   become_user: ec2-user
 
 - name: Source NVM and install Node.js
@@ -20,3 +19,5 @@
   args:
     executable: /bin/bash
   when: nvm_installed.rc == 0
+
+

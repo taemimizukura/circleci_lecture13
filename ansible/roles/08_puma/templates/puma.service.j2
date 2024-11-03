@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 WatchdogSec=60
 User=ec2-user
-WorkingDirectory=/home/ec2-user/raisetech-live8-sample-app/
+WorkingDirectory=/home/ec2-user/raisetech-live8-sample-app
 Environment=PUMA_DEBUG=1
 ExecStartPre=/bin/rm -f /home/ec2-user/raisetech-live8-sample-app/tmp/puma.sock
 ExecStart=/bin/bash -lc 'bundle exec puma -C config/puma.rb > /var/log/puma_output.log 2> /var/log/puma_error.log'
