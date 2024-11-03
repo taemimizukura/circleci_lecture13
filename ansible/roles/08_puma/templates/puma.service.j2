@@ -4,18 +4,15 @@ After=network.target
 
 [Service]
 Type=simple
+WatchdogSec=60
 User=ec2-user
-WorkingDirectory={{ app_dir }}
+WorkingDirectory=/home/ec2-user/raisetech-live8-sample-app/
 Environment=PUMA_DEBUG=1
-ExecStop=/bin/kill -SIGTERM $MAINPID
-ExecReload=/bin/kill -USR2 $MAINPID
-Restart=always
-RestartSec=5
-Environment="PATH=/home/ec2-user/.rbenv/shims:/home/ec2-user/.rbenv/bin:/usr/local/bin:/usr/bin:/bin"
-Environment="RBENV_ROOT=/home/ec2-user/.rbenv"
 ExecStartPre=/bin/rm -f /home/ec2-user/raisetech-live8-sample-app/tmp/puma.sock
-ExecStart=/bin/bash -lc 'bundle exec puma -C /home/ec2-user/raisetech-live8-sample-app/config/puma.rb > /var/log/puma_output.log 2> /var/log/puma_error.log'
-raisetech-live8-sample-app/config/puma.rb > /var/log/puma_output.log 2> /var/log/puma_error.log'
+ExecStart=/bin/bash -lc 'bundle exec puma -C config/puma.rb > /var/log/puma_output.log 2> /var/log/puma_error.log'
+ExecReload=/bin/kill -USR2 $MAINPID
+ExecStop=/bin/kill -SIGTERM $MAINPID
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
