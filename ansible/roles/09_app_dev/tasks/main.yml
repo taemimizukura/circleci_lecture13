@@ -23,17 +23,15 @@
     src: /tmp/vips-8.12.2.tar.gz
     dest: /tmp/
     remote_src: yes
-    become: yes
-
+  become: yes
+  
 - name: Build and install libvips
   shell: |
     cd /tmp/vips-8.12.2
     ./configure
     make
     make install
-  args:
-    creates: /usr/local/bin/vips
-    become: yes
+  become: yes
 
 # 実行準備
 - name: Initialize rbenv and run bundle install
