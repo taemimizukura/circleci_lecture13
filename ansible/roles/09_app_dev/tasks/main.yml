@@ -11,26 +11,29 @@
     dest: "{{ app_dir }}/config/storage.yml"
   ignore_errors: yes  #dry run用
 
-# EPELリポジトリのインストール
-- name: Install EPEL release package
-  yum:
-    name: epel-release
-    state: present
-    
-- name: List available extras
-  command: amazon-linux-extras
-  register: extras_list
+# libvips
+- name: Download libvips source code
+  get_url:
+    url: https://github.com/libvips/libvips/releases/download/v8.12.2/vips-8.12.2.tar.gz
+    dest: /tmp/vips-8.12.2.tar.gz
+    become: yes
 
-- name: Enable vips topic
-  amazon_linux_extra:
-    name: vips
-    state: enabled
+- name: Extract libvips
+  unarchive:
+    src: /tmp/vips-8.12.2.tar.gz
+    dest: /tmp/
+    remote_src: yes
+    become: yes
 
-# libvipsのインストール
-- name: Install libvips
-  yum:
-    name: vips
-    state: present
+- name: Build and install libvips
+  shell: |
+    cd /tmp/vips-8.12.2
+    ./configure
+    make
+    make install
+  args:
+    creates: /usr/local/bin/vips
+    become: yes
 
 # 実行準備
 - name: Initialize rbenv and run bundle install
