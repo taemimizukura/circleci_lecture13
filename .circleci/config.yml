@@ -1,5 +1,9 @@
 version: 2.1
 orbs:
+  aws-cli: circleci/aws-cli@4.2.3
+  ruby: circleci/ruby@2.2.1
+  ansible-playbook: orbss/ansible-playbook@0.0.5
+  aws-cloudformation: orbss/aws-cloudformation@0.1.6
   python: circleci/python@2.0.3
 jobs:
   cfn-lint:
