@@ -27,9 +27,10 @@
       - glib2-devel
       - pkgconfig
       - glib2-static
+      - redis
       - ImageMagick-devel
       - ImageMagick
-
+      - development-tools
     state: present
     enablerepo: epel
   become: yes
