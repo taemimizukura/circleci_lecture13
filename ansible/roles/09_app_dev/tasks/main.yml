@@ -11,12 +11,13 @@
     dest: "{{ app_dir }}/config/storage.yml"
   ignore_errors: yes  #dry run用
 
-# libvipsのインストール
-- name: Enable EPEL repository
-  amazon_linux_extra: 
-    name: epel
-    state: enabled
+# EPELリポジトリのインストール
+- name: Install EPEL release package
+  yum:
+    name: epel-release
+    state: present
 
+# libvipsのインストール
 - name: Install libvips
   yum:
     name: vips
