@@ -12,7 +12,40 @@ jobs:
           command: |
             cfn-lint -i W3002 -t cloudformation/*.yml
 
+  execute-cloudformation:
+    docker:
+      - image: amazon/aws-cli:latest
+    steps:
+      - checkout
+      - run:
+          name: Install required utilities
+          command: yum install -y tar gzip
+      - aws-cli/setup:
+          aws_access_key_id: AWS_ACCESS_KEY_ID
+          aws_secret_access_key: AWS_SECRET_ACCESS_KEY
+          region: AWS_DEFAULT_REGION
+      - run:
+          name: Deploy to AWS from template
+          command: aws cloudformation deploy --template-file cloudformation/4_RDS_S3_ALB.yml --stack-name 'Lec13-RDS-S3'
+      - run:
+          name: Get ELB DNS_NAME from CloudFormation
+          command: |
+            DNS_NAME=$(aws cloudformation describe-stacks \
+              --stack-name "Lec13-RDS-S3" \
+              --query "Stacks[0].Outputs[?OutputKey=='LoadBalancerDNS'].OutputValue" \
+              --output text \
+              --region ap-northeast-1)
+            echo "${DNS_NAME}" > dns_name.txt
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dns_name.txt
+
 workflows:
-  raisetech:
+  version: 2
+  lec13-workflow:
     jobs:
       - cfn-lint
+      - execute-cloudformation:
+          requires:
+            - cfn-lint
