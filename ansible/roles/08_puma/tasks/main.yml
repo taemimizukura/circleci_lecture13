@@ -7,14 +7,6 @@
     - "{{ app_dir }}/tmp/pids"
     - "{{ app_dir }}/tmp/sockets"
 
-- name: Create Puma log files
-  file:
-    path: "{{ item }}"
-    state: touch
-  loop:
-    - /home/ec2-user/raisetech-live8-sample-app/log/puma.stdout.log
-    - /home/ec2-user/raisetech-live8-sample-app/log/puma.stderr.log
-
 - name: Set puma.rb
   template:
     src: puma.rb.j2
