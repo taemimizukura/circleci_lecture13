@@ -18,8 +18,9 @@ ExecStop=/bin/kill -SIGTERM $MAINPID
 Restart=always
 TimeoutStartSec=120
 PIDFile=/home/ec2-user/raisetech-live8-sample-app/tmp/pids/puma.pid
-StandardOutput=append:/home/ec2-user/raisetech-live8-sample-app/log/puma.stdout.log
-StandardError=append:/home/ec2-user/raisetech-live8-sample-app/log/puma.stderr.log
+StandardOutput=/home/ec2-user/raisetech-live8-sample-app/log/puma.stdout.log
+StandardError=/home/ec2-user/raisetech-live8-sample-app/log/puma.stderr.log
+
 
 [Install]
 WantedBy=multi-user.target
