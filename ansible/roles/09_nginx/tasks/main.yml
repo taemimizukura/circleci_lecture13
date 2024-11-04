@@ -30,6 +30,7 @@
     group: ec2-user
     mode: '770'
   become: yes
+  recurse: yes 
 
 - name: Change ownership log
   file:
@@ -58,7 +59,7 @@
     state: started
     enabled: yes
   become: yes
-  
+
 - name: Start and enable nginx service
   systemd:
     name: nginx
