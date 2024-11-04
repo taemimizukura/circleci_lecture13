@@ -23,22 +23,23 @@
   become: yes
   when: nginx_installed is failed
 
-- name: Change ownership
+- name: Change ownership and set permissions lib
   file:
     path: /var/lib/nginx
     owner: ec2-user
     group: ec2-user
     mode: '770'
   become: yes
-  recurse: yes 
+  recurse: yes
 
-- name: Change ownership log
+- name: Change ownership and set permissions log
   file:
     path: /var/log/nginx
     owner: ec2-user
-    group: nginx
+    group: ec2-user
     mode: '750'
   become: yes
+  recurse: yes
 
 - name: Set nginx.conf from template
   template:
