@@ -3,23 +3,17 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: ec2-user
-    group: ec2-user
   loop:
     - "{{ app_dir }}/tmp/pids"
     - "{{ app_dir }}/tmp/sockets"
-  become: yes
 
 - name: Create Puma log files
   file:
     path: "{{ item }}"
     state: touch
-    owner: ec2-user
-    group: ec2-user
   loop:
-    - /var/log/puma_output.log
-    - /var/log/puma_error.log
-  become: yes
+    - /home/ec2-user/raisetech-live8-sample-app/log/puma.stdout.log
+    - /home/ec2-user/raisetech-live8-sample-app/log/puma.stderr.log
 
 - name: Set puma.rb
   template:
