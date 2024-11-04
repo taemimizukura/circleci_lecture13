@@ -9,11 +9,12 @@ User=ec2-user
 WorkingDirectory=/home/ec2-user/raisetech-live8-sample-app
 Environment=PUMA_DEBUG=1
 ExecStartPre=/bin/rm -f /home/ec2-user/raisetech-live8-sample-app/tmp/sockets/puma.sock
-ExecStart=/bin/bash -lc 'bundle exec puma -C config/puma.rb > /var/log/puma_output.log 2> /var/log/puma_error.log'
+ExecStart=/bin/bash -lc 'bundle exec puma -C config/puma.rb
 ExecReload=/bin/kill -USR2 $MAINPID
 ExecStop=/bin/kill -SIGTERM $MAINPID
 Restart=always
 TimeoutStartSec=120
+PIDFile=/home/ec2-user/raisetech-live8-sample-app/tmp/pids/puma.pid
 
 [Install]
 WantedBy=multi-user.target

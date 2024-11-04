@@ -37,9 +37,9 @@ http {
         }
 
         location /assets {
-            expires max;
-            add_header Cache-Control public;
-            root /home/ec2-user/raisetech-live8-sample-app/public;
+          expires max;
+          add_header Cache-Control public;
+          root /home/ec2-user/raisetech-live8-sample-app/public;
         }
 
         location @app {
