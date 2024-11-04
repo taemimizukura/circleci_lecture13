@@ -6,6 +6,7 @@ pid /run/nginx.pid;
 events {
     worker_connections 1024;
 }
+
 http {
     log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
                       '$status $body_bytes_sent "$http_referer" '
@@ -22,36 +23,36 @@ http {
 
     include /usr/share/nginx/modules/*.conf;
     default_type        application/octet-stream;
-    
+
     upstream puma {
         server unix:///home/ec2-user/raisetech-live8-sample-app/tmp/sockets/puma.sock fail_timeout=0;
     }
 
     server {
-    listen 80;
-    server_name {{ alb_dns }};
-    root /home/ec2-user/raisetech-live8-sample-app/public;
-    index index.html index.htm;
+        listen 80;
+        server_name {{ alb_dns }};
+        root /home/ec2-user/raisetech-live8-sample-app/public;
+        index index.html index.htm;
 
-    location / {
-        try_files $uri/index.html $uri @app;
-    }
+        location / {
+            try_files $uri/index.html $uri @app;
+        }
 
-    location /assets {
-        expires max;
-        add_header Cache-Control public;
-        alias /home/ec2-user/raisetech-live8-sample-app/public/assets;
-    }
-}
         location @app {
-          proxy_set_header    Host                $http_host;
-          proxy_set_header    X-Real-IP           $remote_addr;
-          proxy_set_header    X-Forwarded-Host    $host;
-          proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
-          proxy_set_header    X-Forwarded-Proto   $scheme;
-          proxy_pass http://puma;
-          proxy_read_timeout  300;
-          proxy_connect_timeout 60s;
+            proxy_set_header    Host                $http_host;
+            proxy_set_header    X-Real-IP           $remote_addr;
+            proxy_set_header    X-Forwarded-Host    $host;
+            proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
+            proxy_set_header    X-Forwarded-Proto   $scheme;
+            proxy_pass http://puma;
+            proxy_read_timeout  300;
+            proxy_connect_timeout 60s;
+        }
+
+        location /assets {
+            expires max;
+            add_header Cache-Control public;
+            alias /home/ec2-user/raisetech-live8-sample-app/public/assets;
         }
         
         error_page 404 /404.html;
