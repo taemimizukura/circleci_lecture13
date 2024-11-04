@@ -52,6 +52,13 @@
     state: reloaded
   become: yes
 
+- name: Start and enable Puma service
+  systemd:
+    name: puma
+    state: started
+    enabled: yes
+  become: yes
+  
 - name: Start and enable nginx service
   systemd:
     name: nginx
@@ -59,11 +66,6 @@
     enabled: yes
   become: yes
 
-- name: Start and enable Puma service
-  systemd:
-    name: puma
-    state: started
-    enabled: yes
-  become: yes
+
 
 
