@@ -8,7 +8,9 @@ WatchdogSec=60
 User=ec2-user
 WorkingDirectory=/home/ec2-user/raisetech-live8-sample-app
 Environment=PUMA_DEBUG=1
-Environment="RAILS_ENV=production"
+Environment="RAILS_ENV=development"
+Environment="RBENV_ROOT=/home/ec2-user/.rbenv"
+ExecStartPre=/bin/bash -lc 'eval "$(rbenv init -)"'
 ExecStartPre=/bin/rm -f /home/ec2-user/raisetech-live8-sample-app/tmp/sockets/puma.sock
 ExecStart=/bin/bash -lc 'bundle exec puma -C config/puma.rb'
 ExecReload=/bin/kill -USR2 $MAINPID
@@ -16,6 +18,8 @@ ExecStop=/bin/kill -SIGTERM $MAINPID
 Restart=always
 TimeoutStartSec=120
 PIDFile=/home/ec2-user/raisetech-live8-sample-app/tmp/pids/puma.pid
+StandardOutput=append:/home/ec2-user/raisetech-live8-sample-app/log/puma.stdout.log
+StandardError=append:/home/ec2-user/raisetech-live8-sample-app/log/puma.stderr.log
 
 [Install]
 WantedBy=multi-user.target
