@@ -1,0 +1,49 @@
+---
+- name: Create directories for Puma
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: ec2-user
+    group: ec2-user
+  loop:
+    - "{{ app_dir }}/tmp/pids"
+    - "{{ app_dir }}/tmp/sockets"
+  become: yes
+
+ - name: Create Puma log files
+   file:
+     path: "{{ item }}"
+     state: touch
+     owner: ec2-user
+     group: ec2-user
+   loop:
+      - /var/log/puma_output.log
+      - /var/log/puma_error.log
+    become: yes
+
+- name: Set puma.rb
+  template:
+    src: puma.rb.j2
+    dest: "{{ app_dir }}/config/puma.rb"
+
+- name: Set puma.service
+  template:
+    src: puma.service.j2
+    dest: "/etc/systemd/system/puma.service"
+  become: yes
+
+- name: Reload systemd and start Puma
+  systemd:
+    daemon_reload: yes
+    name: puma
+    state: restarted
+    enabled: yes
+  become: yes
+
+- name: Wait for Puma socket to be available
+  wait_for:
+    path: "{{ app_dir }}/tmp/sockets/puma.sock"
+    state: present
+    timeout: 30
+  become: yes
+

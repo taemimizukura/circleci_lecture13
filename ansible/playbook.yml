@@ -19,6 +19,7 @@
     - { role: 04_nodejs }
     - { role: 05_yarn }
     - { role: 06_mysql }
-    - { role: 07_puma }
-    - { role: 08_nginx }
-    - { role: 09_app_dev }
+    - { role: 07_app_dev }
+    - { role: 08_puma }
+    - { role: 09_nginx }
+   
