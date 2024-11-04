@@ -8,7 +8,15 @@
   yum:
     update_cache: yes
   become: yes
-  
+
+
+- name: Ensure ec2-user is in the nginx group
+  user:
+    name: ec2-user
+    groups: nginx
+    append: yes
+  become: yes
+
 - name: Install Nginx
   yum:
     name: nginx
@@ -18,10 +26,18 @@
 
 - name: Change ownership
   file:
-    path: /var/lib/nginx/
+    path: /var/lib/nginx
     owner: ec2-user
     group: ec2-user
     mode: '770'
+  become: yes
+
+- name: Change ownership log
+  file:
+    path: /var/log/nginx
+    owner: ec2-user
+    group: nginx
+    mode: '750'
   become: yes
 
 - name: Set nginx.conf from template
