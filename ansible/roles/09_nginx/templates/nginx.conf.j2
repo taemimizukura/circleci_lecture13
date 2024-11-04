@@ -39,12 +39,6 @@ http {
             alias /home/ec2-user/raisetech-live8-sample-app/public/assets; 
         }
 
-        location /assets {
-            expires max;
-            add_header Cache-Control public;
-            alias /home/ec2-user/raisetech-live8-sample-app/public/assets; 
-        }
-
         location @app {
           proxy_set_header    Host                $http_host;
           proxy_set_header    X-Real-IP           $remote_addr;
