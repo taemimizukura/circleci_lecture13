@@ -18,9 +18,9 @@
 
 - name: Change ownership
   file:
-    path: /var/lib/nginx/temp
+    path: /var/lib/nginx/
     owner: ec2-user
-    group: root
+    group: ec2-user
     mode: '770'
   become: yes
 
