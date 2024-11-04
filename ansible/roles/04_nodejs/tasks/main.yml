@@ -19,12 +19,6 @@
   args:
     executable: /bin/bash
   when: nvm_installed.rc == 0
-  
-- name: Check Node.js version
-  command: /bin/bash -lc "nvm use 17.9.1 && node -v"
-  register: node_version
 
-- debug:
-    msg: "Node.js version is {{ node_version.stdout }}"
 
 
