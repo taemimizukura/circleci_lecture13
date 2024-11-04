@@ -10,16 +10,16 @@
     - "{{ app_dir }}/tmp/sockets"
   become: yes
 
- - name: Create Puma log files
-   file:
-     path: "{{ item }}"
-     state: touch
-     owner: ec2-user
-     group: ec2-user
-   loop:
-      - /var/log/puma_output.log
-      - /var/log/puma_error.log
-    become: yes
+- name: Create Puma log files
+  file:
+    path: "{{ item }}"
+    state: touch
+    owner: ec2-user
+    group: ec2-user
+  loop:
+    - /var/log/puma_output.log
+    - /var/log/puma_error.log
+  become: yes
 
 - name: Set puma.rb
   template:
