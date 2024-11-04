@@ -23,21 +23,33 @@
   become: yes
   when: nginx_installed is failed
 
-- name: Change ownership and set permissions lib
+- name: Change ownership of /var/lib/nginx
   file:
     path: /var/lib/nginx
     owner: ec2-user
     group: ec2-user
-    mode: '770'
   become: yes
   recurse: yes
 
-- name: Change ownership and set permissions log
+- name: Set permissions for /var/lib/nginx
+  file:
+    path: /var/lib/nginx
+    mode: '770'   #所有者、グループ全権限、その他はアクセス不可
+  become: yes
+  recurse: yes
+
+- name: Change ownership of /var/lib/nginx
   file:
     path: /var/log/nginx
     owner: ec2-user
     group: ec2-user
-    mode: '750'
+  become: yes
+  recurse: yes
+
+- name: Set permissions for /var/lib/nginx
+  file:
+    path: /var/log/nginx
+    mode: '750'  #所有者は全権限、グループは読み取りと実行のみ、その他はアクセス不可
   become: yes
   recurse: yes
 
