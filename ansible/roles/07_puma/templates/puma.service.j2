@@ -8,8 +8,9 @@ WatchdogSec=60
 User=ec2-user
 WorkingDirectory=/home/ec2-user/raisetech-live8-sample-app
 Environment=PUMA_DEBUG=1
+Environment="RAILS_ENV=production"
 ExecStartPre=/bin/rm -f /home/ec2-user/raisetech-live8-sample-app/tmp/sockets/puma.sock
-ExecStart=/bin/bash -lc 'bundle exec puma -C config/puma.rb
+ExecStart=/bin/bash -lc 'bundle exec puma -C config/puma.rb'
 ExecReload=/bin/kill -USR2 $MAINPID
 ExecStop=/bin/kill -SIGTERM $MAINPID
 Restart=always
