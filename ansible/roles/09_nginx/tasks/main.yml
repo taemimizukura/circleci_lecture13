@@ -46,18 +46,24 @@
   become: yes
   ignore_errors: yes  #dry run用
 
-- name: Restart puma
-  service:
-    name: puma
-    state: restarted
-  become: yes
-
-
-- name: Restart nginx
+- name: Reload nginx to apply changes
   systemd:
     name: nginx
-    state: restarted
+    state: reloaded
   become: yes
 
+- name: Start and enable nginx service
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Start and enable Puma service
+  systemd:
+    name: puma
+    state: started
+    enabled: yes
+  become: yes
 
 

@@ -32,18 +32,8 @@
     dest: "/etc/systemd/system/puma.service"
   become: yes
 
-- name: Reload systemd and start Puma
+- name: Reload systemd
   systemd:
     daemon_reload: yes
-    name: puma
-    state: restarted
-    enabled: yes
-  become: yes
-
-- name: Wait for Puma socket to be available
-  wait_for:
-    path: "{{ app_dir }}/tmp/sockets/puma.sock"
-    state: present
-    timeout: 30
   become: yes
 
