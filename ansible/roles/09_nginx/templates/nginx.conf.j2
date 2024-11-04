@@ -28,17 +28,21 @@ http {
     }
 
     server {
-        listen 80;
-        server_name {{ alb_dns }};
+    listen 80;
+    server_name {{ alb_dns }};
+    root /home/ec2-user/raisetech-live8-sample-app/public;
+    index index.html index.htm;
 
-        root /home/ec2-user/raisetech-live8-sample-app/public; 
+    location / {
+        try_files $uri/index.html $uri @app;
+    }
 
-        location /assets {
-            expires max;
-            add_header Cache-Control public;
-            alias /home/ec2-user/raisetech-live8-sample-app/public/assets; 
-        }
-
+    location /assets {
+        expires max;
+        add_header Cache-Control public;
+        alias /home/ec2-user/raisetech-live8-sample-app/public/assets;
+    }
+}
         location @app {
           proxy_set_header    Host                $http_host;
           proxy_set_header    X-Real-IP           $remote_addr;
