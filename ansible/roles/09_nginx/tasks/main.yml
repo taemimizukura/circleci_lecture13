@@ -16,49 +16,37 @@
     append: yes
   become: yes
 
-- name: Install Nginx
+- name: Install Nginx if not installed
   yum:
     name: nginx
     state: present
   become: yes
   when: nginx_installed is failed
 
-- name: Change ownership of /var/lib/nginx
+- name: Set ownership and permissions for /var/lib/nginx
   file:
     path: /var/lib/nginx
     owner: ec2-user
     group: ec2-user
+    mode: '0770'  # 所有者とグループにフルアクセス、その他アクセス不可
+    recurse: yes
   become: yes
-  recurse: yes
 
-- name: Set permissions for /var/lib/nginx
-  file:
-    path: /var/lib/nginx
-    mode: '770'   #所有者、グループ全権限、その他はアクセス不可
-  become: yes
-  recurse: yes
-
-- name: Change ownership of /var/lib/nginx
+- name: Set ownership and permissions for /var/log/nginx
   file:
     path: /var/log/nginx
     owner: ec2-user
     group: ec2-user
+    mode: '0750'  # 所有者にフルアクセス、グループに読み取りと実行、その他アクセス不可
+    recurse: yes
   become: yes
-  recurse: yes
-
-- name: Set permissions for /var/lib/nginx
-  file:
-    path: /var/log/nginx
-    mode: '750'  #所有者は全権限、グループは読み取りと実行のみ、その他はアクセス不可
-  become: yes
-  recurse: yes
 
 - name: Set nginx.conf from template
   template:
     src: nginx.conf.j2
     dest: "/etc/nginx/nginx.conf"
   become: yes
-  ignore_errors: yes  #dry run用
+  ignore_errors: yes  # dry run用
 
 - name: Reload nginx to apply changes
   systemd:
@@ -79,7 +67,3 @@
     state: started
     enabled: yes
   become: yes
-
-
-
-
