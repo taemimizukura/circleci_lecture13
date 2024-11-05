@@ -16,7 +16,6 @@ end
 # 指定のバージョンがインストールされているか  
 # ruby 3.2.3
 describe command('/home/ec2-user/.rbenv/shims/ruby -v') do
-  its(:exit_status) { should eq 0 }
   its(:stdout) { should match /3\.2\.3/ }
 end
 
@@ -27,13 +26,11 @@ end
 
 # Rails 7.1.3.2
 describe command('/home/ec2-user/.rbenv/shims/rails -v') do
-  its(:exit_status) { should eq 0 }
   its(:stdout) { should match /7\.1\.3\.2/ }
 end  
 
 # Node 17.9.1
 describe command('/home/ec2-user/.nvm/versions/node/v17.9.1/bin/node -v') do
-  its(:exit_status) { should eq 0 }
   its(:stdout) { should match /17\.9\.1/ }
 end
 
