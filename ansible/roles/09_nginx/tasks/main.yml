@@ -9,12 +9,6 @@
     update_cache: yes
   become: yes
 
-- name: Ensure ec2-user is in the nginx group
-  user:
-    name: ec2-user
-    groups: nginx
-    append: yes
-  become: yes
 
 - name: Install Nginx if not installed
   yum:
