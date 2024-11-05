@@ -9,7 +9,6 @@
     update_cache: yes
   become: yes
 
-
 - name: Install Nginx if not installed
   yum:
     name: nginx
