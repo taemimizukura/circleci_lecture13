@@ -25,8 +25,13 @@ describe command('/home/ec2-user/.rbenv/shims/rails -v') do
 end  
 
 # Node 17.9.1
-describe command('/home/ec2-user/.nvm/versions/node/v17.9.1/bin/node -v') do
+describe command('source /home/ec2-user/.nvm/nvm.sh && /home/ec2-user/.nvm/versions/node/v17.9.1/bin/node -v') do
   its(:stdout) { should match /17\.9\.1/ }
+end
+
+# Yarn 1.22.19
+describe command('/home/ec2-user/.yarn/bin/yarn -v') do
+  its(:stdout) { should match /1\.22\.19/ }
 end
 
 # Bundler 2.3.14

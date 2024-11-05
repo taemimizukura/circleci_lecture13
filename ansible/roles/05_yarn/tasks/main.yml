@@ -7,11 +7,12 @@
 
 - name: Install Yarn using curl and bash
   shell: |
-    curl -o- -L https://yarnpkg.com/install.sh | bash
+    curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version {{ yarn_version }}
     source ~/.bashrc
   args:
     executable: /bin/bash
   become: yes
   become_user: ec2-user
   when: yarn_installed is failed
+
 
