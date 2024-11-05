@@ -20,7 +20,7 @@ describe command('/home/ec2-user/.rbenv/shims/ruby -v') do
 end
 
 # bundler 2.3.14
-describe command("/home/ec2-user/.rbenv/shims/bundler -v") do
+describe command("/home/ec2-user/raisetech-live8-sample-app/bundler -v") do
   its(:stdout) { should match /2\.3\.14/ }
 end
 
