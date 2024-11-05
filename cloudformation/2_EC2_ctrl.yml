@@ -13,10 +13,10 @@ Parameters:
     Description: IP address allowed to access EC2
     Type: String
   
-  ExistingEIP: #コントロールノード用の既存のEIPを入力する
+  ExistingEIP: 
     Description: The existing Elastic IP for ControlNode
     Type: String
-    Default: 54.64.20.148
+    Default: 54.64.20.148    #コントロールノード用の既存EIP
     
 Resources:
 #--------------------------------------------------------#         
@@ -71,7 +71,7 @@ Resources:
         - IpProtocol: tcp
           FromPort: 22
           ToPort: 22
-          CidrIp: !Sub ${MyIP}/32
+          CidrIp: !Sub ${MyIP}/32     #自分のローカルPCからのみSSH接続可
           Description: Allow SSH access from local
       SecurityGroupEgress:
         - IpProtocol: "-1"

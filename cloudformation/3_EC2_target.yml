@@ -13,11 +13,11 @@ Parameters:
 #    Description: IP address allowed to access EC2
 #    Type: String
   
-  ExistingEIP: #ターゲットノード用の既存のEIPを入力する
+  ExistingEIP: 
     Description: The existing Elastic IP for targetnode
     Type: String
-    Default: 18.180.2.113
-
+    Default: 18.180.2.113    #ターゲットノード用の既存EIP
+    
 Resources:
 #--------------------------------------------------------#         
 # EC2
@@ -63,32 +63,14 @@ Resources:
         - IpProtocol: tcp
           FromPort: 80  
           ToPort: 80
-          CidrIp: 0.0.0.0/0
+          SourceSecurityGroupId: !Ref ELBSecurityGroup     #ALB経由のHTTP通信のみ許可
           Description: HTTP Access Permission
-
-#        - IpProtocol: tcp
-#          FromPort: 22    #SSH
-#          ToPort: 22
-#          CidrIp: !Sub ${ControlNodeIP}/32
-#          Description: Allow SSH access from control node
-
-#        - IpProtocol: tcp
-#          FromPort: 22
-#          ToPort: 22
-#          CidrIp: !Sub ${MyIP}/32
-#          Description: Alow SSH access from local
 
         - IpProtocol: tcp
           FromPort: 22
           ToPort: 22
           CidrIp: 0.0.0.0/0
-          Description: for circleci   #circleci無料プランだとIPアドレス範囲が分からないため開放
-
-#        - IpProtocol: tcp
-#          FromPort: 3000  
-#          ToPort: 3000 
-#          CidrIp: 0.0.0.0/0
-#          Description: Port 3000 permission for sample-app
+          Description: for circleci   #circleci無料プランだとIPアドレス範囲が分からないため全開放
 
       SecurityGroupEgress:
         - IpProtocol: "-1"
@@ -97,6 +79,23 @@ Resources:
         - Key: Name
           Value: !Sub ${NameBase}-ec2-sg
 
+  ELBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for ELB(Elastic Load Balancer)
+      GroupName: !Sub ${NameBase}-elb-sg
+      VpcId: !ImportValue MyVpc
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameBase}-elb-sg
 #--------------------------------------------------------#         
 # IAM Role
 #--------------------------------------------------------#
@@ -141,5 +140,10 @@ Outputs:
     Value: !Ref MyEC2Instance2
     Export:
       Name: MyEC2Instance2
+  
+  ELBSecurityGroup:
+    Value: !Ref ELBSecurityGroup
+    Export:
+      Name: ELBSecurityGroup
 
 
