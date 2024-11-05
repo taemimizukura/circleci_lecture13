@@ -34,7 +34,6 @@ describe command('bash -lc "source /home/ec2-user/.nvm/nvm.sh && /home/ec2-user/
   its(:stdout) { should match /1\.22\.19/ }
 end
 
-
 # Bundler 2.3.14
 describe command("cd /home/ec2-user/raisetech-live8-sample-app && /home/ec2-user/.rbenv/shims/bundle -v") do
   its(:stdout) { should match /2\.3\.14/ }
