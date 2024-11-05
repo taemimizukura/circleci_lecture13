@@ -40,4 +40,5 @@
   when: bundler_installed is failed
 
 - name: Run rbenv rehash
-  shell: bash -lc "rbenv rehash"
+  shell: bash -lc 'eval "$(rbenv init -)"; rbenv rehash'
+
