@@ -30,9 +30,10 @@ describe command('source /home/ec2-user/.nvm/nvm.sh && /home/ec2-user/.nvm/versi
 end
 
 # Yarn 1.22.19
-describe command("source /home/ec2-user/.bash_profile && /home/ec2-user/.yarn/bin/yarn -v") do
+describe command('bash -lc "source /home/ec2-user/.nvm/nvm.sh && /home/ec2-user/.yarn/bin/yarn -v"') do
   its(:stdout) { should match /1\.22\.19/ }
 end
+
 
 # Bundler 2.3.14
 describe command("cd /home/ec2-user/raisetech-live8-sample-app && /home/ec2-user/.rbenv/shims/bundle -v") do
