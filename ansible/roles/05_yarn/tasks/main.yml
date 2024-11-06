@@ -1,24 +1,19 @@
+---
 - name: Check if Yarn is installed
   shell: bash -lc "yarn -v"
   register: yarn_installed
   changed_when: no
   ignore_errors: yes
 
+- name: Source .bash_profile
+  shell: source ~/.bash_profile
+  become: yes
+  become_user: ec2-user
+
 - name: Install Yarn using curl and bash
   shell: |
-    export PATH=$PATH:/home/ec2-user/.nvm/versions/node/v17.9.1/bin
+    export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
     curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version {{ yarn_version }}
-  args:
-    executable: /bin/bash
-  when: yarn_installed is failed
-  become_user: ec2-user
-
-- name: Add Yarn to the PATH in .bash_profile
-  shell: echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> /home/ec2-user/.bash_profile
-  become_user: ec2-user
-  when: yarn_installed is failed
-
-- name: Reload .bash_profile to apply new PATH
-  shell: source /home/ec2-user/.bash_profile
+  become: yes
   become_user: ec2-user
   when: yarn_installed is failed
