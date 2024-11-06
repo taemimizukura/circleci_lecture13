@@ -6,7 +6,7 @@
   ignore_errors: yes
 
 - name: Source .bash_profile
-  shell: source ~/.bash_profile && exec bash -l
+  shell: source ~/.bash_profile
   become: yes
   become_user: ec2-user
 
