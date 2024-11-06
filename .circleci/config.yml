@@ -60,7 +60,7 @@ jobs:
             echo "export DNS_NAME=${DNS_NAME}" >> $BASH_ENV
       - add_ssh_keys:
           fingerprints:
-            - "SHA256:m4bMlCuLi9KoY1KMsSxWK/kE3uXxGp2koeEGFWg4wdg"
+            - "SHA256:Ma3eyTExbpT6UPn3I9IqzLN6zDraxvJELkzbv1J77Cs"
       - run:
           name: Install Ansible
           command: pip install ansible
