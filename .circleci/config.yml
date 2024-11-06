@@ -76,10 +76,9 @@ jobs:
             echo "$SSH_PUBLIC_KEY" >> ~/.ssh/authorized_keys
             chmod 600 ~/.ssh/authorized_keys
 
-            # ターゲットノードのホスト鍵を known_hosts に追加
+            # ターゲットノードのホスト鍵を コントロールノードのknown_hosts に追加
             ssh-keyscan -H 18.180.2.113 >> ~/.ssh/known_hosts
             chmod 644 ~/.ssh/known_hosts
-
       - run:
           name: Execute Ansible Playbook
           command: |
