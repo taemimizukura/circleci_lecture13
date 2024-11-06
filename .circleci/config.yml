@@ -59,6 +59,7 @@ jobs:
             DNS_NAME=$(cat /tmp/workspace/dns_name.txt)
             echo "export DNS_NAME=${DNS_NAME}" >> $BASH_ENV
       - run:
+<<<<<<< HEAD
           name: Remove old entry and add new entry
           command: |
             ssh-keygen -R 18.180.2.113 -f ~/.ssh/known_hosts || true
@@ -66,6 +67,14 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - $FINGER_PRINT
+=======
+          name: Remove old entry for 18.180.2.113 from known_hosts
+          command: |
+            ssh-keygen -R 18.180.2.113 || true
+      - add_ssh_keys:
+          fingerprints:
+            - "{{ FINGER_PRINT }}"
+>>>>>>> 72209da (SSH)
       - run:
           name: Install Ansible
           command: pip install ansible
