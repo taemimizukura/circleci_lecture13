@@ -71,7 +71,7 @@ jobs:
       - run:
           name: Execute Ansible Playbook
           command: |
-            ansible-playbook -i ansible/inventory ansible/playbook.yml --private-key ~/.ssh/raisetech_key.pem--extra-vars "alb_dns=${DNS_NAME}"
+            ansible-playbook -i ansible/inventory ansible/playbook.yml --extra-vars "alb_dns=${DNS_NAME}"
 
   execute-serverspec:
     executor: ruby/default
