@@ -71,7 +71,7 @@ jobs:
           name: SSH setup
           command: |
             ssh-keygen -R "18.180.2.113"
-            ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -i ~/.ssh/id_rsa ec2-user@18.180.2.113 "echo '$SSH_PUBLIC_KEY' >> ~/.ssh/authorized_keys"
+            ssh -v -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -i ~/.ssh/id_rsa ec2-user@18.180.2.113 "echo '$SSH_PUBLIC_KEY' >> ~/.ssh/authorized_keys"
       - run:
           name: Execute Ansible Playbook
           command: |
