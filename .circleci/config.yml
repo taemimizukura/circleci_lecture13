@@ -63,18 +63,15 @@ jobs:
           name: Install Ansible
           command: pip install ansible
       - run:
-          name: Set up SSH keys
+          name: Set up SSH private key
           command: |
             echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
-
-            if ! grep -q "$SSH_PUBLIC_KEY" ~/.ssh/authorized_keys; then
-              echo "$SSH_PUBLIC_KEY" >> ~/.ssh/authorized_keys
-            fi
-            chmod 600 ~/.ssh/authorized_keys
-            
-            ssh-keyscan -H 18.180.2.113 >> ~/.ssh/known_hosts
-            chmod 644 ~/.ssh/known_hosts
+      - run:
+          name: SSH setup
+          command: |
+            ssh-keygen -R "18.180.2.113"
+            ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/id_rsa ec2-user@18.180.2.113 "echo '$SSH_PUBLIC_KEY' >> ~/.ssh/authorized_keys"
       - run:
           name: Execute Ansible Playbook
           command: |
