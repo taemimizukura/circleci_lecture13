@@ -1,4 +1,3 @@
----
 - name: Check if Yarn is installed
   shell: bash -lc "yarn -v"
   register: yarn_installed
@@ -14,4 +13,12 @@
   when: yarn_installed is failed
   become_user: ec2-user
 
+- name: Add Yarn to the PATH in .bash_profile
+  shell: echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> /home/ec2-user/.bash_profile
+  become_user: ec2-user
+  when: yarn_installed is failed
 
+- name: Reload .bash_profile to apply new PATH
+  shell: source /home/ec2-user/.bash_profile
+  become_user: ec2-user
+  when: yarn_installed is failed
