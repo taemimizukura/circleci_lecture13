@@ -58,18 +58,16 @@ jobs:
           command: |
             DNS_NAME=$(cat /tmp/workspace/dns_name.txt)
             echo "export DNS_NAME=${DNS_NAME}" >> $BASH_ENV
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:C/2Tyc2h823YnNy9EMJfkoLmRI4b7hFIQKlf7mC2whU"
       - run:
           name: Install Ansible
           command: pip install ansible
       - run:
-          name: Set up SSH private key
-          command: |
-            echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-            chmod 600 ~/.ssh/id_rsa
-      - run:
           name: Execute Ansible Playbook
           command: |
-            ansible-playbook -i ansible/inventory ansible/playbook.yml --private-key ~/.ssh/id_rsa--extra-vars "alb_dns=${DNS_NAME}"
+            ansible-playbook -i ansible/inventory ansible/playbook.yml --private-key ~/.ssh/id_rsa --extra-vars "alb_dns=${DNS_NAME}"
 
   execute-serverspec:
     executor: ruby/default
