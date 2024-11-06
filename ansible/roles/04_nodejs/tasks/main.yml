@@ -13,9 +13,9 @@
 
 - name: Source NVM and install Node.js
   shell: |
-    source /home/ec2-user/.nvm/nvm.sh
-    nvm install 17.9.1
-    nvm alias default 17.9.1
+    . /home/ec2-user/.nvm/nvm.sh
+    nvm install {{ node_version }}
+    nvm alias default {{ node_version }}
   args:
     executable: /bin/bash
   when: nvm_installed.rc == 0
