@@ -31,6 +31,7 @@ jobs:
       - run:
           name: Deploy to AWS from templates
           command: |
+            aws cloudformation deploy --template-file cloudformation/3_EC2_target.yml --stack-name 'Lec13-EC2-target' --capabilities CAPABILITY_NAMED_IAM --parameter-overrides KeyName=${MY_KEY_PAIR} \
             aws cloudformation deploy --template-file cloudformation/4_RDS_S3_ALB.yml --stack-name 'Lec13-RDS-S3'
       - run:
           name: Get ELB DNS_NAME from CloudFormation
@@ -45,7 +46,6 @@ jobs:
           root: .
           paths:
             - dns_name.txt
-
   execute-ansible:
     docker:
       - image: cimg/python:3.8
@@ -59,7 +59,7 @@ jobs:
             DNS_NAME=$(cat /tmp/workspace/dns_name.txt)
             echo "export DNS_NAME=${DNS_NAME}" >> $BASH_ENV
       - run:
-          name: Remove old entry from known_hosts
+          name: Remove old entry and add new entry
           command: |
             ssh-keygen -R 18.180.2.113 -f ~/.ssh/known_hosts || true
             ssh-keyscan 18.180.2.113 >> ~/.ssh/known_hosts
@@ -72,8 +72,7 @@ jobs:
       - run:
           name: Execute Ansible Playbook
           command: |
-            ansible-playbook -i ansible/inventory ansible/playbook.yml -vvv --extra-vars "alb_dns=${DNS_NAME}"
-
+            ansible-playbook -i ansible/inventory ansible/playbook.yml --extra-vars "alb_dns=${DNS_NAME}"
   execute-serverspec:
     executor: ruby/default
     steps:
@@ -87,7 +86,6 @@ jobs:
           command: |
             cd serverspec
             TARGET_HOST=18.180.2.113 bundle exec rspec
-          
 workflows:
   version: 2
   lec13-workflow:
