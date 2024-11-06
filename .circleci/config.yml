@@ -51,7 +51,7 @@ jobs:
     docker:
       - image: cimg/python:3.8
     steps:
-      - checkout 
+      - checkout
       - attach_workspace:
           at: /tmp/workspace
       - run:
@@ -62,21 +62,17 @@ jobs:
       - run:
           name: Install Ansible
           command: pip install ansible
-      - add_ssh_keys:
-          fingerprints:
-            - "SHA256:aa2K3ZyCEuc18KGwfISWQXReT4gmgmFdEFd7y8RcQwk"
       - run:
           name: Set up SSH keys
           command: |
-            # 秘密鍵を ~/.ssh/id_rsa に保存
             echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
 
-            # ターゲットノードの公開鍵を authorized_keys に追加
-            echo "$SSH_PUBLIC_KEY" >> ~/.ssh/authorized_keys
+            if ! grep -q "$SSH_PUBLIC_KEY" ~/.ssh/authorized_keys; then
+              echo "$SSH_PUBLIC_KEY" >> ~/.ssh/authorized_keys
+            fi
             chmod 600 ~/.ssh/authorized_keys
-
-            # ターゲットノードのホスト鍵を コントロールノードのknown_hosts に追加
+            
             ssh-keyscan -H 18.180.2.113 >> ~/.ssh/known_hosts
             chmod 644 ~/.ssh/known_hosts
       - run:
