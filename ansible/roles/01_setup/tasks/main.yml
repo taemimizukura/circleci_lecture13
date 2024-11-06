@@ -4,7 +4,7 @@
     src: bash_profile.j2
     dest: /home/ec2-user/.bash_profile
 
-- name: Enable EPEL repository     #epel repositoryを有効にする
+- name: Enable EPEL repository    #epel repositoryを有効にする
   command: amazon-linux-extras install epel -y
   become: yes
 
