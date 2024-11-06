@@ -31,7 +31,7 @@ jobs:
       - run:
           name: Deploy to AWS from templates
           command: |
-            aws cloudformation deploy --template-file cloudformation/3_EC2_target.yml --stack-name 'Lec13-EC2-target'
+            aws cloudformation deploy --template-file cloudformation/3_EC2_target.yml --stack-name 'Lec13-EC2-target' --parameter-overrides MyKeyPair=$MY_KEY_PAIR
             aws cloudformation deploy --template-file cloudformation/4_RDS_S3_ALB.yml --stack-name 'Lec13-RDS-S3'
       - run:
           name: Get ELB DNS_NAME from CloudFormation
