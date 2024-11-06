@@ -6,12 +6,9 @@
   ignore_errors: yes
 
 - name: Install Yarn using curl and bash
-  shell: |
-    curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version {{ yarn_version }}
+  shell: "PATH=$PATH:/home/ec2-user/.nvm/versions/node/v17.9.1/bin curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version {{ yarn_version }}"
   args:
     executable: /bin/bash
-  become: yes
-  become_user: ec2-user
   when: yarn_installed is failed
 
 
