@@ -58,21 +58,20 @@ jobs:
           command: |
             DNS_NAME=$(cat /tmp/workspace/dns_name.txt)
             echo "export DNS_NAME=${DNS_NAME}" >> $BASH_ENV
+      - run:
+          name: Remove old entry for 18.180.2.113 from known_hosts
+          command: |
+            ssh-keygen -R 18.180.2.113 || true
       - add_ssh_keys:
           fingerprints:
-            - "SHA256:Ma3eyTExbpT6UPn3I9IqzLN6zDraxvJELkzbv1J77Cs"
+            - "{{ FINGER_PRINT }}"
       - run:
           name: Install Ansible
           command: pip install ansible
       - run:
-          name: Add host key to known_hosts
-          command: |
-            ssh-keyscan -H 18.180.2.113 >> ~/.ssh/known_hosts
-            chmod 644 ~/.ssh/known_hosts
-      - run:
           name: Execute Ansible Playbook
           command: |
-            ansible-playbook -i ansible/inventory ansible/playbook.yml --private-key ~/.ssh/id_rsa --extra-vars "alb_dns=${DNS_NAME}"
+            ansible-playbook -i ansible/inventory ansible/playbook.yml --private-key ~/.ssh/raisetech_key.pem--extra-vars "alb_dns=${DNS_NAME}"
 
   execute-serverspec:
     executor: ruby/default
