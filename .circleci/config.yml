@@ -90,7 +90,7 @@ jobs:
           command: |
             cd serverspec
             TARGET_HOST=18.180.2.113 bundle exec rspec
-
+          
 workflows:
   version: 2
   lec13-workflow:
