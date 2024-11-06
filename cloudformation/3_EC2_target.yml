@@ -8,7 +8,6 @@ Parameters:
   MyKeyPair:
     Description: The EC2 Key Pair to allow SSH access to the instance
     Type: AWS::EC2::KeyPair::KeyName
-    Default: !Ref AWS::NoValue # 値なしを許可
     
   ExistingEIP: 
     Description: The existing Elastic IP for targetnode
