@@ -22,4 +22,3 @@
     - { role: 07_app_dev }
     - { role: 08_puma }
     - { role: 09_nginx }
-   
