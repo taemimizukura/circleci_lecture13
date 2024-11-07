@@ -10,12 +10,6 @@
     state: enabled
   become: yes
 
-- name: Install the EPEL release package
-  yum:
-    name: epel-release
-    state: present
-  become: yes
-
 - name: Update yum cache
   yum:
     update_cache: yes
