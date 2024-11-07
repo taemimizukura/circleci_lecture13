@@ -10,7 +10,7 @@
   args:
     creates: /home/ec2-user/.nvm/nvm.sh
   become_user: ec2-user
-  when: nvm_installed.rc == 0
+  when: nvm_installed is failed  # nvmがインストールされていない場合に実行
 
 - name: Set nvm.sh from template
   template:
@@ -21,9 +21,21 @@
     mode: 0755
   become: yes
 
-- name: NVM is installed
-  command: bash -lc "nvm install {{ node_version }}"
-  when: nvm_installed.rc == 0
+- name: Install specific Node.js version with NVM
+  shell: |
+    source /etc/profile.d/nvm.sh
+    nvm install {{ node_version }}
+  args:
+    executable: /bin/bash
+  when: nvm_installed is failed 
+
+- name: Use specific Node.js version with NVM
+  shell: |
+    source /etc/profile.d/nvm.sh
+    nvm use {{ node_version }}
+  args:
+    executable: /bin/bash
+
 
 - name: NVM use version
   command: bash -lc "nvm use {{ node_version }}"
