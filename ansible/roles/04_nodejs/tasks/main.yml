@@ -11,13 +11,6 @@
     creates: /home/ec2-user/.nvm/nvm.sh
   become_user: ec2-user
 
-- name: NVM is installed
-  command: bash -lc "nvm install 17"
-  when: nvm_installed.rc == 0
-
-- name: NVM use version
-  command: bash -lc "nvm use {{ node_version }}"
-
 - name: Ensure /etc/profile.d/nvm.sh exists
   file:
     path: /etc/profile.d/nvm.sh
@@ -36,6 +29,15 @@
       [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
   when: nvm_installed.rc == 0
   become: yes 
+
+- name: NVM is installed
+  command: bash -lc "nvm install {{ node_version }}"
+  when: nvm_installed.rc == 0
+
+- name: NVM use version
+  command: bash -lc "nvm use {{ node_version }}"
+
+
 
 
 
