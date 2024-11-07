@@ -3,10 +3,17 @@
   shell: bash -lc "yarn -v"
   register: yarn_installed
   changed_when: no
-  ignore_errors: yes
 
 - name: Yarn install
   shell: bash -lc "npm install --global yarn@1.22.19"
   ignore_errors: yes
   when: yarn_installed is failed
+
+- name: Add Yarn to /etc/profile
+  blockinfile:
+    path: /etc/profile
+    block: |
+      export PATH="$PATH:$(yarn global bin)"
+  when: yarn_installed.rc == 0
+
 
