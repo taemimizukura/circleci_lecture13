@@ -11,12 +11,12 @@
     creates: /home/ec2-user/.nvm/nvm.sh
   become_user: ec2-user
   when: nvm_installed.rc == 0
-  
+
 - name: Ensure /etc/profile.d/nvm.sh exists
   file:
     path: /etc/profile.d/nvm.sh
     state: touch
-    mode: '0644'
+    mode: '0755'
     owner: root
     group: root
   become: yes
