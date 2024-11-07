@@ -10,7 +10,7 @@
   args:
     creates: /home/ec2-user/.nvm/nvm.sh
   become_user: ec2-user
-  when: nvm_installed is failed  # nvmがインストールされていない場合に実行
+  when: nvm_installed is failed
 
 - name: Set nvm.sh from template
   template:
@@ -36,9 +36,6 @@
   args:
     executable: /bin/bash
 
-
-- name: NVM use version
-  command: bash -lc "nvm use {{ node_version }}"
 
 
 
