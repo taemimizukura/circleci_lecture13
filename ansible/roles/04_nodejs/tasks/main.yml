@@ -18,6 +18,14 @@
 - name: NVM use version
   command: bash -lc "nvm use {{ node_version }}"
 
+- name: Add NVM to /etc/profile for system-wide access
+  blockinfile:
+    path: /etc/profile
+    block: |
+      export NVM_DIR="/home/ec2-user/.nvm"
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  when: nvm_installed.rc == 0
 
 
 
