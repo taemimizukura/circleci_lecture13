@@ -4,10 +4,8 @@
   register: nginx_installed
   ignore_errors: yes
 
-- name: Enable the EPEL repository
-  yum:
-    name: epel-release
-    state: present
+- name: Enable EPEL repository
+  command: amazon-linux-extras install epel -y
   become: yes
 
 - name: Update yum cache
