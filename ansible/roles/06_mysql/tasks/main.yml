@@ -22,7 +22,7 @@
     dest: "{{ app_dir }}/config/database.yml"
   become: yes
 
-- name: Set /etc/my.cnf from template
+- name: Set my.cnf from template
   become: yes
   template:
     src: my.cnf.j2

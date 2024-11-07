@@ -4,6 +4,12 @@
   register: nginx_installed
   ignore_errors: yes
 
+- name: Ensure EPEL repository is enabled
+  yum:
+    name: epel-release
+    state: present
+  become: yes
+
 - name: Update yum cache
   yum:
     update_cache: yes
