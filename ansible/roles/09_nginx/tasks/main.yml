@@ -5,9 +5,9 @@
   ignore_errors: yes
 
 - name: Enable the EPEL repository
-  amazon_linux_extras:
-    name: epel
-    state: enabled
+  yum:
+    name: epel-release
+    state: present
   become: yes
 
 - name: Update yum cache
