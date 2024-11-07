@@ -9,11 +9,22 @@
   ignore_errors: yes
   when: yarn_installed is failed
 
-- name: Add Yarn to /etc/profile
+- name: Ensure /etc/profile.d/yarn.sh exists
+  file:
+    path: /etc/profile.d/yarn.sh
+    state: touch
+    mode: '0644'
+    owner: root
+    group: root
+  become: yes
+
+- name: Add Yarn to /etc/profile.d/yarn.sh
   blockinfile:
-    path: /etc/profile
+    path: /etc/profile.d/yarn.sh
     block: |
       export PATH="$PATH:$(yarn global bin)"
   when: yarn_installed.rc == 0
+  become: yes
+
 
 
