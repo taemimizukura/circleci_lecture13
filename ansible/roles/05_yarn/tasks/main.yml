@@ -13,7 +13,6 @@
   template:
     src: yarn.sh.j2
     dest: "/etc/profile.d/yarn.sh"
-    become: yes
     owner: root
     group: root
     mode: 0755

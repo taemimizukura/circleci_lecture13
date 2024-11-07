@@ -14,7 +14,6 @@
   template:
     src: rbenv.sh.j2
     dest: "/etc/profile.d/rbenv.sh"
-    become: yes
     owner: root
     group: root
     mode: 0755

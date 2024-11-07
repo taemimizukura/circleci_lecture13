@@ -16,7 +16,6 @@
   template:
     src: nvm.sh.j2
     dest: "/etc/profile.d/nvm.sh"
-    become: yes
     owner: root
     group: root
     mode: 0755
