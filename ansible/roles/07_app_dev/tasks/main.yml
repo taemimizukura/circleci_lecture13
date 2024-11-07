@@ -1,0 +1,40 @@
+---
+- name: Set development.rb from template
+  template:
+    src: development.rb.j2
+    dest: "{{ app_dir }}/config/environments/development.rb"
+  ignore_errors: yes  #dry run用
+
+- name: Set storage.yml from template
+  template:
+    src: storage.yml.j2
+    dest: "{{ app_dir }}/config/storage.yml"
+  ignore_errors: yes  #dry run用
+
+- name: Set application.rb from template
+  template:
+    src: application.rb.j2
+    dest: "{{ app_dir }}/config/application.rb"
+
+- name: Initialize rbenv and run bundle install
+  shell: bash -lc "eval '$(rbenv init -)'; bundle install"
+  args:
+    chdir: "{{ app_dir }}"
+
+- name: Run db:create
+  shell: bash -lc "rails db:create"
+  args:
+    chdir: "{{ app_dir }}"
+
+- name: Run db:migrate
+  shell: bash -lc "rails db:migrate"
+  args:
+    chdir: "{{ app_dir }}"
+
+- name: Asset precompile
+  shell: bash -lc "rails assets:precompile"
+  args: 
+    chdir: "{{ app_dir }}"
+  async: 600
+  poll: 0
+

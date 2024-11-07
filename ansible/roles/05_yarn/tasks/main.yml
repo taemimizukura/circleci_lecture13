@@ -1,0 +1,21 @@
+---
+- name: Check if Yarn is installed
+  shell: bash -lc "yarn -v"
+  register: yarn_installed
+  ignore_errors: yes
+
+- name: Yarn install
+  shell: bash -lc "npm install --global yarn@1.22.19"
+  ignore_errors: yes
+  when: yarn_installed is failed
+
+- name: Set yarn.sh from template
+  template:
+    src: yarn.sh.j2
+    dest: "/etc/profile.d/yarn.sh"
+    owner: root
+    group: root
+    mode: 0755
+  become: yes
+
+

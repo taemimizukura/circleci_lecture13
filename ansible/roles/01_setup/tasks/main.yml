@@ -1,0 +1,37 @@
+---
+- name: Set timezone to Asia/Tokyo
+  timezone:
+    name: Asia/Tokyo
+  become: yes
+
+- name: Install required packages
+  yum:
+    name: 
+      - git 
+      - gcc
+      - gcc-c++
+      - make
+      - glibc-headers
+      - openssl-devel
+      - readline-devel
+      - libyaml-devel
+      - zlib-devel
+      - libffi-devel
+      - libxml2-devel
+      - libxslt-devel
+      - sqlite-devel
+      - ImageMagick-devel
+      - ImageMagick
+    state: present
+  become: yes
+
+- name: Check if the application directory exists
+  stat:
+    path: "{{ app_dir }}"
+  register: sample_app
+
+- name: Clone the repository
+  git:
+    repo: 'https://github.com/yuta-ushijima/raisetech-live8-sample-app.git'
+    dest: "{{ app_dir }}"
+  when: not sample_app.stat.exists

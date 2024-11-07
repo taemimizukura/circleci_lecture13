@@ -1,0 +1,25 @@
+---
+- name: Create directories for Puma
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ app_dir }}/tmp/pids"
+    - "{{ app_dir }}/tmp/sockets"
+
+- name: Set puma.rb from template
+  template:
+    src: puma.rb.j2
+    dest: "{{ app_dir }}/config/puma.rb"
+
+- name: Set puma.service from template
+  template:
+    src: puma.service.j2
+    dest: "/etc/systemd/system/puma.service"
+  become: yes
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+  become: yes
+

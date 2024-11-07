@@ -1,0 +1,45 @@
+---
+- name: Check if NVM is installed
+  command: bash -lc "command -v nvm"
+  register: nvm_installed
+  ignore_errors: yes
+
+- name: Install NVM if not installed
+  shell: |
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+  args:
+    creates: /home/ec2-user/.nvm/nvm.sh
+  become_user: ec2-user
+  when: nvm_installed is failed
+
+- name: Set nvm.sh from template
+  template:
+    src: nvm.sh.j2
+    dest: "/etc/profile.d/nvm.sh"
+    owner: root
+    group: root
+    mode: 0755
+  become: yes
+
+- name: Install specific Node.js version with NVM
+  shell: |
+    source /etc/profile.d/nvm.sh
+    nvm install {{ node_version }}
+  args:
+    executable: /bin/bash
+  when: nvm_installed is failed 
+
+- name: Use specific Node.js version with NVM
+  shell: |
+    source /etc/profile.d/nvm.sh
+    nvm use {{ node_version }}
+  args:
+    executable: /bin/bash
+
+
+
+
+
+
+
+
