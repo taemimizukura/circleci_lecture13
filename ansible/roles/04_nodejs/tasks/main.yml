@@ -12,24 +12,14 @@
   become_user: ec2-user
   when: nvm_installed.rc == 0
 
-- name: Ensure /etc/profile.d/nvm.sh exists
-  file:
-    path: /etc/profile.d/nvm.sh
-    state: touch
-    mode: '0755'
+- name: Set nvm.sh from template
+  template:
+    src: nvm.sh.j2
+    dest: "/etc/profile.d/nvm.sh"
+    become: yes
     owner: root
     group: root
-  become: yes
-
-- name: Add NVM to /etc/profile.d
-  blockinfile:
-    path: /etc/profile.d/nvm.sh
-    block: |
-      export NVM_DIR="/home/ec2-user/.nvm"
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  when: nvm_installed.rc == 0
-  become: yes 
+    mode: 0755
 
 - name: NVM is installed
   command: bash -lc "nvm install {{ node_version }}"

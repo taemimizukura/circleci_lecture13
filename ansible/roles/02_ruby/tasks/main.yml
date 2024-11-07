@@ -10,24 +10,14 @@
     dest: '/home/ec2-user/.rbenv'
   when: rbenv_installed is failed
 
-- name: Ensure /etc/profile.d/rbenv.sh exists
-  file:
-    path: /etc/profile.d/rbenv.sh
-    state: touch
-    mode: '0755'
+- name: Set rbenv.sh from template
+  template:
+    src: rbenv.sh.j2
+    dest: "/etc/profile.d/rbenv.sh"
+    become: yes
     owner: root
     group: root
-  become: yes
-
-- name: Add rbenv initialization to rbenv.sh
-  blockinfile:
-    path: /etc/profile.d/rbenv.sh
-    block: |
-      export RBENV_ROOT="/home/ec2-user/.rbenv"
-      export PATH="${RBENV_ROOT}/bin:${PATH}"
-      eval "$(rbenv init -)"
-  when: rbenv_installed is failed
-  become: yes 
+    mode: 0755
 
 - name: Clone ruby-build if not installed
   git:
