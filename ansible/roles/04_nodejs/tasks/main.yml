@@ -19,6 +19,7 @@
     owner: root
     group: root
     mode: 0755
+  become: yes
 
 - name: NVM is installed
   command: bash -lc "nvm install {{ node_version }}"
