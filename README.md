@@ -4,8 +4,8 @@
 CircleCI のサンプルに Serverspec や Ansible の処理を追加してください。  
 
 以下の工程をCircleCIで自動化しました。  
-①cfn-lint：CloudFormationの構文チェック  
-②execute-cloudformation：CloudFormationスタック実行（ALB、RDS、S3追加）  
-③execute-ansible：ターゲットノードのEC2インスタンスにサンプルアプリケーションの動作環境構築  
-④execute-serverspec：ターゲットノードの環境をテストする  
-[Circleci Execution Result](https://app.circleci.com/pipelines/github/taemimizukura/circleci_lecture13/95/workflows/c3d21980-150e-4cec-8bd4-b7706cfee242)
+① CloudFormationの構文チェック  
+② CloudFormationスタック実行（EC2、ALB、RDS、S3追加）  
+③ ターゲットノードのEC2インスタンスにサンプルアプリケーションの動作環境構築  
+④ ターゲットノードの環境をテストする  
+[CircleCI Execution Result](https://app.circleci.com/pipelines/github/taemimizukura/circleci_lecture13/162/workflows/0370b21f-bf06-461b-9177-f56a4f1f6f3c)
