@@ -13,7 +13,7 @@
   file:
     path: /etc/profile.d/yarn.sh
     state: touch
-    mode: '0644'
+    mode: '0755'
     owner: root
     group: root
   become: yes
