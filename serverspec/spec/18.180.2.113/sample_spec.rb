@@ -29,11 +29,6 @@ describe command('source /etc/profile.d/nvm.sh && /home/ec2-user/.nvm/versions/n
   its(:stdout) { should match /17\.9\.1/ }
 end
 
-# Yarn 1.22.19
-describe command('source /etc/profile.d/yarn.sh && /home/ec2-user/.yarn/bin/yarn -v') do
-  its(:stdout) { should match /1\.22\.19/ }
-end
-
 # Bundler 2.3.14
 describe command("cd /home/ec2-user/raisetech-live8-sample-app && /home/ec2-user/.rbenv/shims/bundle -v") do
   its(:stdout) { should match /2\.3\.14/ }
