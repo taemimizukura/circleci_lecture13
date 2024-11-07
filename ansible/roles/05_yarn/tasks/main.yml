@@ -5,16 +5,8 @@
   changed_when: no
   ignore_errors: yes
 
-- name: Source .bash_profile
-  shell: source ~/.bash_profile
-  become: yes
-  become_user: ec2-user
-
-- name: Install Yarn using curl and bash
-  shell: |
-    export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-    curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version {{ yarn_version }}
-  become: yes
-  become_user: ec2-user
-  when: yarn_installed is failed
+- name: Yarn install
+  shell: bash -lc "npm install --global yarn@1.22.19"
   ignore_errors: yes
+  when: yarn_installed is failed
+
