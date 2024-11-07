@@ -10,7 +10,8 @@
   args:
     creates: /home/ec2-user/.nvm/nvm.sh
   become_user: ec2-user
-
+  when: nvm_installed.rc == 0
+  
 - name: Ensure /etc/profile.d/nvm.sh exists
   file:
     path: /etc/profile.d/nvm.sh

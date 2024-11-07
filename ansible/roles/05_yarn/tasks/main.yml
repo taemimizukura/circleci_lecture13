@@ -2,7 +2,7 @@
 - name: Check if Yarn is installed
   shell: bash -lc "yarn -v"
   register: yarn_installed
-  changed_when: no
+  ignore_errors: yes
 
 - name: Yarn install
   shell: bash -lc "npm install --global yarn@1.22.19"
