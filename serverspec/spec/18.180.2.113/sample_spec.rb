@@ -30,7 +30,7 @@ describe command('source /etc/profile.d/nvm.sh && /home/ec2-user/.nvm/versions/n
 end
 
 # Yarn 1.22.19
-describe command('source /etc/profile.d/yarn.sh && exec bash && /home/ec2-user/.yarn/bin/yarn -v') do
+describe command('source /etc/profile.d/yarn.sh && /home/ec2-user/.yarn/bin/yarn -v') do
   its(:stdout) { should match /1\.22\.19/ }
 end
 
