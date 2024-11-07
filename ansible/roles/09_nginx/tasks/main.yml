@@ -4,7 +4,13 @@
   register: nginx_installed
   ignore_errors: yes
 
-- name: Ensure EPEL repository is enabled
+- name: Enable the EPEL repository
+  amazon_linux_extras:
+    name: epel
+    state: enabled
+  become: yes
+
+- name: Install the EPEL release package
   yum:
     name: epel-release
     state: present
