@@ -16,18 +16,18 @@
     state: present
   become: yes
 
-- name: Create database.yml from template
+- name: Set database.yml from template
   template:
     src: database.yml.j2
     dest: "{{ app_dir }}/config/database.yml"
   become: yes
 
-- name: Edit /etc/my.cnf
+- name: Set /etc/my.cnf from template
   become: yes
   template:
     src: my.cnf.j2
     dest: /etc/my.cnf
     owner: root
     group: root
-    mode: '0644'
+    mode: '0755'
 

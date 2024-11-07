@@ -7,12 +7,12 @@
     - "{{ app_dir }}/tmp/pids"
     - "{{ app_dir }}/tmp/sockets"
 
-- name: Set puma.rb
+- name: Set puma.rb from template
   template:
     src: puma.rb.j2
     dest: "{{ app_dir }}/config/puma.rb"
 
-- name: Set puma.service
+- name: Set puma.service from template
   template:
     src: puma.service.j2
     dest: "/etc/systemd/system/puma.service"
