@@ -18,8 +18,16 @@
 - name: NVM use version
   command: bash -lc "nvm use {{ node_version }}"
 
-- name: Add NVM to /etc/profile.d
+- name: Ensure /etc/profile.d/nvm.sh exists
+  file:
+    path: /etc/profile.d/nvm.sh
+    state: touch
+    mode: '0644'
+    owner: root
+    group: root
   become: yes
+
+- name: Add NVM to /etc/profile.d
   blockinfile:
     path: /etc/profile.d/nvm.sh
     block: |
@@ -27,6 +35,7 @@
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
       [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
   when: nvm_installed.rc == 0
+  become: yes 
 
 
 
