@@ -10,9 +10,10 @@
     dest: '/home/ec2-user/.rbenv'
   when: rbenv_installed is failed
 
-- name: Add rbenv to /etc/profile
+- name: Add rbenv to /etc/profile.d/rbenv.sh
+  become: yes
   blockinfile:
-    path: /etc/profile
+    path: /etc/profile.d/rbenv.sh
     block: |
       export RBENV_ROOT="/home/ec2-user/.rbenv"
       export PATH="${RBENV_ROOT}/bin:${PATH}"
