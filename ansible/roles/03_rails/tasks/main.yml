@@ -6,6 +6,6 @@
 
 - name: Install Rails
   shell: bash -lc "gem install rails -v {{ rails_version }} --no-document"
-  when: rails_installed.stdout == "false"  
+  when: rails_installed is failed
 
 
