@@ -19,7 +19,6 @@
     mode: 0755
   become: yes
 
-
 - name: Clone ruby-build if not installed
   git:
     repo: 'https://github.com/rbenv/ruby-build.git'
@@ -27,7 +26,7 @@
   when: rbenv_installed is failed
 
 - name: Reload shell profile
-  shell: "source /etc/profile"
+  shell: "source /etc/profile.d/rbenv.sh"
   become: yes
   when: rbenv_installed is failed
 
