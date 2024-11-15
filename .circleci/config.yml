@@ -61,8 +61,8 @@ jobs:
       - run:
           name: Remove old entry and add new entry
           command: |
-            ssh-keygen -R 18.180.2.113 -f ~/.ssh/known_hosts || true
-            ssh-keyscan 18.180.2.113 >> ~/.ssh/known_hosts
+            ssh-keygen -R 54.65.198.231 -f ~/.ssh/known_hosts || true
+            ssh-keyscan 54.65.198.231 >> ~/.ssh/known_hosts
       - add_ssh_keys:
           fingerprints:
             - $FINGER_PRINT
@@ -85,7 +85,7 @@ jobs:
           name: Execute serverspec
           command: |
             cd serverspec
-            TARGET_HOST=18.180.2.113 bundle exec rspec
+            TARGET_HOST=54.65.198.231 bundle exec rspec
 workflows:
   version: 2
   lec13-workflow:
