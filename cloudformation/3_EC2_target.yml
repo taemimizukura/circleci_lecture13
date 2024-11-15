@@ -12,7 +12,7 @@ Parameters:
   ExistingEIP: 
     Description: The existing Elastic IP for targetnode
     Type: String
-    Default: 18.180.2.113    #ターゲットノード用の既存EIP
+    Default: 54.65.198.231    #ターゲットノード用の既存EIP
     
 Resources:
 #--------------------------------------------------------#         
