@@ -1,11 +1,17 @@
 # circleci_lecture13
-## Raisetech 第13回課題実行用リポジトリです。  
-【課題内容】  
-CircleCI のサンプルに Serverspec や Ansible の処理を追加してください。  
+Control Node：EC2(Amazon Linux2)  
+Target Node：EC2(Amazon Linux2)  
 
-以下の工程をCircleCIで自動化しました。  
+Elastic IPを使用した固定IP構成です。
+
+以下の工程をCircleCIで自動化しています：  
 ① CloudFormationの構文チェック  
-② CloudFormationスタック実行（EC2、ALB、RDS、S3追加）  
-③ ターゲットノードのEC2インスタンスにサンプルアプリケーションの動作環境構築  
-④ ターゲットノードの環境をテストする  
+② CloudFormationスタック実行（EC2、ALB、RDS、S3作成）  
+③ AnsibleでEC2インスタンスにサンプルアプリケーションの環境構築  
+④ Serverspecで環境のテスト  
+
+CircleCI実行結果はこちら：  
 [CircleCI Execution Result](https://app.circleci.com/pipelines/github/taemimizukura/circleci_lecture13/162/workflows/0370b21f-bf06-461b-9177-f56a4f1f6f3c)
+
+パブリックIPアドレスの動的取得はこちら：  
+[circleci-dynamic-ip](https://github.com/taemimizukura/circleci-dynamic-ip)
